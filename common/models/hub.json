@@ -1,0 +1,65 @@
+{
+  "name": "Hub",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "currencyISO": {
+      "type": "string"
+    },
+    "timezone": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customers": {
+      "type": "hasMany",
+      "model": "Customer",
+      "foreignKey": ""
+    },
+    "itemCategories": {
+      "type": "hasMany",
+      "model": "ItemCategory",
+      "foreignKey": ""
+    },
+    "transportOperators": {
+      "type": "hasMany",
+      "model": "TransportOperator",
+      "foreignKey": ""
+    },
+    "items": {
+      "type": "hasMany",
+      "model": "Item",
+      "foreignKey": ""
+    },
+    "markets": {
+      "type": "hasMany",
+      "model": "Market",
+      "foreignKey": ""
+    },
+    "custLkdItemPrices": {
+      "type": "hasMany",
+      "model": "CustLkdItemPrice",
+      "foreignKey": ""
+    },
+    "users": {
+      "type": "hasMany",
+      "model": "User",
+      "through": "HubUserMap"
+    },
+    "vendors": {
+      "type": "hasMany",
+      "model": "Vendor",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

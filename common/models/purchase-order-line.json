@@ -1,0 +1,48 @@
+{
+  "name": "PurchaseOrderLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "quantity": {
+      "type": "number"
+    },
+    "receivedDate": {
+        "type": "date"
+     },
+     "packedDate": {
+         "type": "date"
+      },
+    "receivedQty": {
+        "type": "number"
+      },
+    "packedQty": {
+      "type": "number"
+    },
+    "comments": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "purchaseOrder": {
+      "type": "belongsTo",
+      "model": "PurchaseOrder",
+      "foreignKey": ""
+    },
+    "uom": {
+      "type": "belongsTo",
+      "model": "Uom",
+      "foreignKey": ""
+    },
+    "item": {
+        "type": "belongsTo",
+        "model": "Item",
+        "foreignKey": ""
+      }
+  },
+  "acls": [],
+  "methods": {}
+}

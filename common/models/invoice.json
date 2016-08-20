@@ -1,0 +1,35 @@
+{
+  "name": "Invoice",
+  "plural": "Invoices",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "invoiceStatuses": {
+      "type": "hasOne",
+      "model": "InvoiceStatus",
+      "foreignKey": ""
+    },
+    "order": {
+      "type": "belongsTo",
+      "model": "Order",
+      "foreignKey": ""
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

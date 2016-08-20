@@ -1,0 +1,35 @@
+{
+  "name": "OrderTracking",
+  "plural": "OrderTrackings",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "timestamp": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "order": {
+      "type": "belongsTo",
+      "model": "Order",
+      "foreignKey": ""
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": ""
+    },
+    "orderStatus": {
+      "type": "belongsTo",
+      "model": "OrderStatus",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

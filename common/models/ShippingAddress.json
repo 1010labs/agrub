@@ -1,0 +1,24 @@
+{
+  "name": "ShippingAddress",
+  "base": "Address",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "isDefault": {
+      "type": "boolean",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+	"customer": {
+	  "type": "belongsTo",
+	  "model": "Customer",
+	  "foreignKey": ""
+	}
+  },
+  "acls": [],
+  "methods": {}
+}

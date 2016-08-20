@@ -1,0 +1,68 @@
+{
+  "name": "Item",
+  "plural": "Items",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "qualityParam": {
+      "type": "string"
+    },
+    "qualityVariance": {
+      "type": "string"
+    },
+    "available": {
+      "type": "boolean"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "itemCategory": {
+      "type": "belongsTo",
+      "model": "ItemCategory",
+      "foreignKey": ""
+    },
+    "hub": {
+      "type": "belongsTo",
+      "model": "Hub",
+      "foreignKey": ""
+    },
+    "itemPrices": {
+      "type": "hasMany",
+      "model": "ItemPrice",
+      "foreignKey": ""
+    },
+    "uom": {
+      "type": "belongsTo",
+      "model": "Uom",
+      "foreignKey": ""
+    },
+    "dailyMktPrices": {
+      "type": "hasMany",
+      "model": "DailyMktPrice",
+      "foreignKey": ""
+    },
+    "custLkdItemPrices": {
+      "type": "hasMany",
+      "model": "CustLkdItemPrice",
+      "foreignKey": ""
+    },
+    "dailyMktPriceHistory": {
+      "type": "hasMany",
+      "model": "DailyMktPriceHistory",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

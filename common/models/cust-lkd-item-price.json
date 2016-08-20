@@ -1,0 +1,48 @@
+{
+  "name": "CustLkdItemPrice",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "price": {
+      "type": "string",
+      "required": true
+    },
+    "uomQty": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "hub": {
+      "type": "belongsTo",
+      "model": "Hub",
+      "foreignKey": ""
+    },
+    "uom": {
+      "type": "belongsTo",
+      "model": "Uom",
+      "foreignKey": ""
+    },
+    "item": {
+      "type": "belongsTo",
+      "model": "Item",
+      "foreignKey": ""
+    },
+    "custLkdPeriod": {
+      "type": "belongsTo",
+      "model": "CustLkdPeriod",
+      "foreignKey": ""
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

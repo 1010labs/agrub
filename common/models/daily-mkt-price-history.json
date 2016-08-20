@@ -1,0 +1,54 @@
+{
+  "name": "DailyMktPriceHistory",
+  "plural": "DailyMktPricesHistory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "minPrice": {
+      "type": "number",
+      "required": true
+    },
+    "maxPrice": {
+      "type": "number",
+      "required": true
+    },
+    "uomQty": {
+      "type": "number"
+    },
+    "dmpDate": {
+      "type": "date",
+      "required": true
+    },
+    "updatedTimestamp": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "item": {
+      "type": "belongsTo",
+      "model": "Item",
+      "foreignKey": ""
+    },
+    "market": {
+      "type": "belongsTo",
+      "model": "Market",
+      "foreignKey": ""
+    },
+    "uom": {
+      "type": "belongsTo",
+      "model": "Uom",
+      "foreignKey": ""
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

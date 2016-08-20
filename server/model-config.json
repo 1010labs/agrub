@@ -1,0 +1,159 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "db",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ItemCategory": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Item": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Order": {
+    "dataSource": "db",
+    "public": true
+  },
+  "LineItem": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Customer": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Hub": {
+    "dataSource": "db",
+    "public": true
+  },
+  "OrderStatus": {
+    "dataSource": "db",
+    "public": true
+  },
+  "InvoiceStatus": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Invoice": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Pricing": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ItemPrice": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Email": {
+    "dataSource": "emailDataSource"
+  },
+  "container": {
+    "dataSource": "storage",
+    "public": true
+  },
+  "user": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Vendor": {
+    "dataSource": "db",
+    "public": true
+  },
+  "TransportOperator": {
+    "dataSource": "db",
+    "public": true
+  },
+  "DailyMktPrice": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Market": {
+    "dataSource": "db",
+    "public": true
+  },
+  "CustLkdPeriod": {
+    "dataSource": "db",
+    "public": true
+  },
+  "CustLkdItemPrice": {
+    "dataSource": "db",
+    "public": true
+  },
+  "DailyMktPriceHistory": {
+    "dataSource": "db",
+    "public": true
+  },
+  "CustomerUserMap": {
+    "dataSource": "db",
+    "public": true
+  },
+  "HubUserMap": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Uom": {
+    "dataSource": "db",
+    "public": true
+  },
+  "PurchaseOrder": {
+    "dataSource": "db",
+    "public": true
+  },
+  "PurchaseOrderLine": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Address": {
+    "dataSource": "db",
+    "public": false
+  },
+  "BillingAddress": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ShippingAddress": {
+    "dataSource": "db",
+    "public": false
+  },
+  "OrderTracking": {
+    "dataSource": "db",
+    "public": true
+  },
+  "VendorUserMap": {
+	"dataSource": "db",
+	"public": true
+  }
+}

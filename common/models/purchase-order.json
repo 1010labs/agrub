@@ -1,0 +1,43 @@
+{
+  "name": "PurchaseOrder",
+  "plural": "PurchaseOrders",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "deliveryDate": {
+      "type": "date",
+      "required": true
+    },
+    "generatedDate": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "supplier": {
+      "type": "belongsTo",
+      "model": "Vendor",
+      "foreignKey": ""
+    },
+    "receiver": {
+        "type": "belongsTo",
+        "model": "Vendor",
+        "foreignKey": ""
+      },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": ""
+    },
+    "purchaseOrderLines": {
+      "type": "hasMany",
+      "model": "PurchaseOrderLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

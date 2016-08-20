@@ -1,0 +1,324 @@
+<section class="content">
+		<!-- Main row -->
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel" ng-show="!viewOrder">
+					<header class="panel-heading">
+					  {{'tbl_head_DO' | xlat}}
+					</header>
+					<div class="panel-body table-responsive">
+						<table width="100%" style="margin-bottom:5px">
+								<tr>
+									<td align="left">
+										<span style="color:red" ng-show="errorMessage">{{errorMessage}}</span>
+									</td>
+									<td align="right">
+										<!-- <button class="btn btn-primary" ng-disabled="!selDC" ng-click="showCustomerInfo(selDC)" align="right">Customer Info</button> -->
+										<!-- <button class="btn btn-primary" ng-disabled="!selDC" ng-click="markAsDelivered()" align="right">Mark As Delivered</button> -->
+									</td>
+								</tr>
+							</table> 
+						<table style="background-color:antiquewhite" class="table table-striped table-bordered valignMiddle" st-safe-src="doCollection" st-table="dos">
+							<thead>
+							<tr>
+									<th st-sort="customer" st-sort-default="default"><i class="glyphicon glyphicon-filter"></i>Customer Name</th>
+									<th st-sort="name"><i class="glyphicon glyphicon-filter"></i>Order Id</th>
+									<th st-sort="deliveryDate"><i class="glyphicon glyphicon-filter"></i>delivery Date</th>
+									<th st-sort="deliveryTime"><i class="glyphicon glyphicon-filter"></i>deliver Time</th>
+									<th st-sort="orderStatus.name"><i class="glyphicon glyphicon-filter"></i>Status</th>
+									<th width="10%">Actions</th>
+								</tr>
+								<tr>
+									<th>
+										<input st-search="customer.name" placeholder="search for custommer" class="input-sm form-control" type="search"/>
+									</th>
+									<th>
+										<input st-search="id" placeholder="search for order number" class="input-sm form-control" type="search"/>
+									</th>
+									<th></th><th></th><th></th><th></th>
+								</tr>
+							</thead>
+							<tbody ng-show="!isLoading">
+							<tr ng-repeat="row in dos">
+									<td>{{row.customer.name}}</td>
+									<td>{{row.id}}</td>
+									<td>{{row.deliveryDate | date:'yyyy-MM-dd':'UTC'}}</td>
+									<td>{{row.deliveryTime}}</td>
+									<td align="center">
+										<span class="label label-pill label-primary" ng-if="row.orderStatus.name=='PO'">New</span>
+										<span class="label label-pill label-info" ng-if="row.orderStatus.name=='SO'">Accepted</span>
+										<span class="label label-pill label-warning" ng-if="row.orderStatus.name=='DC'">At WH</span>
+										<span class="label label-pill label-info" ng-if="row.orderStatus.name=='OFD'">OFD</span>
+										<span class="label label-pill label-success" ng-if="row.orderStatus.name=='DELIVERED'">Delivered</span>
+										<span class="label label-pill label-default" ng-if="row.orderStatus.name=='END'">END</span>
+									</td>
+									<td>
+										<button class="btn btn-primary" ng-click="viewOrderDetails(row)" style="line-height: 1">View</button>
+										<button class="btn btn-primary" ng-click="viewInvoice(row)" style="line-height: 1">Invoice</button>
+									</td>
+							</tr>
+							<tr ng-if="dos.length == 0">
+						   		<td colspan="6" class="text-center">{{error}}</td>
+							</tr>
+							</tbody>
+							<tbody ng-show="isLoading">
+							<tr>
+								<td colspan="6" class="text-center"><img src="./css/images/loading.gif"/></td>
+							</tr>
+							</tbody>
+							<tfoot>
+							<tr ng-show="!isLoading && dos.length != 0">
+								<td class="text-center" st-pagination="" st-items-by-page="itemsByPage" colspan="6">
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+			</div>
+		</section>
+		<!-- View Order details-->
+		<section class="panel" ng-show="viewOrder">
+			<header class="panel-heading">
+			  <div class="row">
+			  	<div class="col-md-4"><span>Order <b>#{{selectedDO.id}}</b></span></div>
+			  	<div class="col-md-8" style="text-align: right;">
+			  		<button class="btn btn-warning" ng-click="backToMainMenu()">Cancel</button>
+			  	</div>
+			  </div>
+			</header>
+			<div id="messages" style="color:red;margin-bottom: 15px;" ng-show="subError" ng-bind-html="subError"></div>
+			<div class="panel-body table-responsive">
+				<table style="background-color:antiquewhite" class="table table-striped table-bordered valignMiddle" st-safe-src="selectedDO.lineItems" st-table="poLineItemsCollection">
+					<thead>
+					<tr>
+							<th st-sort="name" st-sort-default="default"><i class="glyphicon glyphicon-filter"></i>Item</th>
+							<th st-sort="itemCategory.name"><i class="glyphicon glyphicon-filter"></i>Category</th>
+							<th>UOM</th>
+							<th>Quantity</th>
+							<th>Cust Updated Qty</th>
+							<th>Cust Updated Date</th>
+						</tr>
+						<tr>
+							<th>
+								<input st-search="name" placeholder="search for item" class="input-sm form-control" type="search"/>
+							</th>
+							<th></th>
+							<th></th><th></th><th></th><th></th>
+						</tr>
+					</thead>
+					<tbody ng-show="!isLoading">
+					<tr ng-repeat="row in poLineItemsCollection">
+							<td>{{row.item.name}}</td>
+							<td>{{row.item.itemCategory.name}}</td>
+							<td>{{row.uom.name}}</td>
+							<td>{{row.lineItemQuantity}}</td>
+							<td>{{row.custUpdatedItemQuantity}}</td>
+							<td>{{row.custUpdatedDate | date:'yyyy-MM-dd':'UTC'}}</td>
+							
+					</tr>
+					<tr ng-if="poLineItemsCollection.length == 0">
+						<td colspan="6" class="text-center">{{error}}</td>
+					</tr>
+					</tbody>
+					<tbody ng-show="isLoading">
+					<tr>
+						<td colspan="6" class="text-center"><img src="./css/images/loading.gif"/></td>
+					</tr>
+					</tbody>
+					<tfoot>
+					<tr ng-show="!isLoading && poLineItemsCollection.length != 0">
+						<td class="text-center" st-pagination="" st-items-by-page="itemsByPage" colspan="6">
+						</td>
+					</tr>
+					</tfoot>
+				</table>
+			</div>
+		</section>
+		<!-- View order details end -->
+	</div>
+		</div>
+</section>
+<script type="text/ng-template" id="invoice.html">
+<div class="modal-content" id="invoiceContent">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" ng-click="cancel()">&times;</button>
+		<h4 class="modal-title">
+			<img id="company" alt="1010 Labs" width="50" height="50" src="css/images/square-logo.jpg"/>
+			Invoice
+		</h4>
+	</div>
+	<div class="modal-body">
+		<div class="row branding">
+			<div class="col-xs-6">
+				<div>
+					<label for="invoice-number">Order # {{order.id}}</label>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div>
+					<label for="invoice-number">Customer : {{order.customer.name}}</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="col-xs-6">
+					<fieldset class="scheduler-border"
+						style="margin: 5px; padding: 10px; border: 1px solid gray;">
+						<legend class="scheduler-border">Billing Address</legend>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Name
+								:</label> {{order.billingAddress.name}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Address1
+								:</label> {{order.billingAddress.address1}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Address2
+								:</label> {{order.billingAddress.address2}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Address3
+								:</label> {{order.billingAddress.address3}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">City
+								:</label> {{order.billingAddress.city}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">State
+								:</label> {{order.billingAddress.state}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Country
+								:</label> {{order.billingAddress.country}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Zip
+								:</label> {{order.billingAddress.zip}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Phone
+								:</label> {{order.billingAddress.phone}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Alternate
+								Phone :</label> {{order.billingAddress.altPhone}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Email
+								:</label> {{order.billingAddress.email}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Fax
+								:</label> {{order.billingAddress.fax}}
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-xs-6">
+					<fieldset class="scheduler-border"
+						style="margin: 5px; padding: 10px; border: 1px solid gray;">
+						<legend class="scheduler-border">Shipping Address</legend>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Name
+								:</label> {{order.shippingAddress.name}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Address1
+								:</label> {{order.shippingAddress.address1}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Address2
+								:</label> {{order.shippingAddress.address2}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Address3
+								:</label> {{order.shippingAddress.address3}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">City
+								:</label> {{order.shippingAddress.city}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">State
+								:</label> {{order.shippingAddress.state}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Country
+								:</label> {{order.shippingAddress.country}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Zip
+								:</label> {{order.shippingAddress.zip}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Phone
+								:</label> {{order.shippingAddress.phone}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Alternate
+								Phone :</label> {{order.shippingAddress.altPhone}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Email
+								:</label> {{order.shippingAddress.email}}
+						</div>
+						<div class="control-group">
+							<label class="control-label input-label" for="startTime">Fax
+								:</label> {{order.shippingAddress.fax}}
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12">
+			<div
+				style="text-align: center; font-weight: 700; font-size: larger; margin-top: 2%;">
+				Order Items</div>
+		</div>
+		<div class="items-table col-xs-12"
+			style="padding-left: 30px; padding-right: 30px;padding-bottom: 30px;">
+			<form name="invoiceForm" class="css-form" novalidate>
+			<div class="row header">
+				<div class="col-xs-4">Item</div>
+				<div class="col-xs-2">Quantity</div>
+				<div class="col-xs-2">UOM</div>
+				<div class="col-xs-2 ng-binding">Cost ₹</div>
+				<div class="col-xs-2 text-right">Total</div>
+			</div>
+			<!-- ngRepeat: item in invoice.items -->
+			<div class="row invoice-item ng-scope"
+				ng-repeat="lineItem in order.lineItems"
+				ng-animate="&#39;slide-down&#39;">
+
+				<div class="col-xs-4">{{lineItem.item.name}}</div>
+				<div class="col-xs-2">{{lineItem.custUpdatedItemQuantity}}</div>
+				<div class="col-xs-2">{{lineItem.uom.name}}</div>
+				<div class="col-xs-2"><input class="form-control" ng-class="getBoarderColor(lineItem.itemPrice)" style="margin-top: 4px;" required type="number" max="10000" min="1" ng-model="lineItem.itemPrice"/></div>
+				<div class="col-xs-2 text-right ng-binding">
+					₹{{lineItem.itemPrice * lineItem.custUpdatedItemQuantity}}</div>
+			</div>
+			<!-- end ngRepeat: item in invoice.items -->
+
+			<div class="row">
+				<div class="col-xs-10 text-right">Sub Total</div>
+				<div class="col-xs-2 text-right ng-binding">₹{{getSubTotal();}}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-10 text-right">Tax(2%):</div>
+				<div class="col-xs-2 text-right">₹ {{getTax();}}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-10 text-right">Grand Total:</div>
+				<div class="col-xs-2 text-right">₹{{getTotal();}}</div>
+			</div>
+		</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-disabled="invoiceForm.$invalid" ng-click="PrintPartOfPage('invoiceContent');">Print</button>
+		<button type="button" class="btn btn-warning" data-dismiss="modal"	ng-click="cancel()">Close</button>
+	</div>
+</div>
+</script>

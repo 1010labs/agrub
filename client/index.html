@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <meta charset="UTF-8">
+    <title>AGRUB</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Developed By 1010 Labs">
+    <link href="css/style.css" rel="stylesheet">
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/angular-block-ui.css" rel="stylesheet">
+	<link href="css/invoice.css" rel="stylesheet">
+	
+	  <script src="js/lib/angular.js"></script>
+	  <script src="js/lib/angular-sanitize.min.js"></script>
+    <script src="js/lib/angular-resource.js"></script>
+	<script src="js/lib/angular-cookies.min.js"></script>
+    <script src="js/lib/angular-ui-router.js"></script>
+    <script src="js/lib/angular-block-ui.js"></script>
+    <script src="js/lib/ui-bootstrap-tpls-0.13.0.js"></script>
+    <script src="js/lib/smart-table.min.js"></script>
+	<script src="js/lib/angular-file-upload.min.js"></script>
+	<script src="js/lib/datetime-picker.js"></script>
+	<script src="js/lib/angular-filter.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/services/lb-services.js"></script>
+	 <script src="js/services/appServices.js"></script>
+	 <script src="js/services/auth.js"></script>
+    <script src="js/appMessages.js"></script>
+	<script src="js/controllers/CustomerController.js"></script>
+	<script src="js/controllers/OrderController.js"></script>
+	<script src="js/controllers/PurchaseOrderController.js"></script>
+	<script src="js/controllers/SalesOrderController.js"></script>
+	<script src="js/controllers/DeliveryChalanController.js"></script>
+	<script src="js/controllers/DeliveredOrdersController.js"></script>
+	<script src="js/controllers/UserController.js"></script>
+	<script src="js/controllers/HubController.js"></script>
+	<script src="js/controllers/ItemController.js"></script>
+	<script src="js/controllers/PriceController.js"></script>
+	 <script src="js/controllers/UploadOrderController.js"></script>
+	<script src="js/controllers/ReportsController.js"></script>
+	<script src="js/controllers/AuthLogoutController.js"></script>
+	<script src="js/controllers/AuthLoginController.js"></script>
+	<script src="js/controllers/MarketController.js"></script>
+	<script src="js/controllers/SignUpController.js"></script>
+	<script src="js/controllers/TransportOperatorController.js"></script>
+	<script src="js/controllers/VendorController.js"></script>
+  </head>
+   <body class="skin-black  pace-done">
+   <div class="pace  pace-inactive">
+		<div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+			<div class="pace-progress-inner"></div>
+		</div>
+		<div class="pace-activity"></div>
+	</div>
+	 <!-- header logo: style can be found in header.less -->
+        <header id="header" class="header" ng-if="currentUser">
+            <span class="logo">
+                {{'appLogo' | xlat}}
+            </span>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <span id="toggleSideBarIcon" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button" ng-click="toggleSideBar()" title="Toggle Navigation" ng-controller="MainController">
+                    <span class="sr-only">{{'lbl_toggle_nav' | xlat}}</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </span>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        
+                        <!-- User Account: style can be found in dropdown.less -->
+								<li class="dropdown user user-menu">
+									<a href="#logout" class="dropdown-toggle" data-toggle="dropdown">
+										<i class="fa fa-user"></i>
+										<span><i class="fa fa-ban fa-fw pull-right"></i> Logout</span>
+									</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+				 <div class="wrapper row-offcanvas row-offcanvas-left">
+                    <!-- Left side column. contains the logo and sidebar -->
+                    <aside class="left-side sidebar-offcanvas" ng-if="currentUser">
+                        <!-- sidebar: style can be found in sidebar.less -->
+                        <section class="sidebar">
+                            <!-- Sidebar user panel -->
+                            <div class="user-panel">
+                                <div class="pull-left image">
+                                    <img src="./css/images/profile.png" class="img-circle" alt="User Image">
+                                </div>
+                                <div class="pull-left info">
+                                    <p>Hello, {{currentUser.username}}</p>
+                                </div>
+                            </div>
+                            <!-- sidebar menu: : style can be found in sidebar.less -->
+                            <ul class="sidebar-menu">
+                                <li id="customers" ng-if="hasPermission('customers')">
+                                    <a href="#customers">
+                                        <i class="fa fa-dashboard"></i><span class="glyphicon glyphicon-briefcase"></span> <span>{{'menu_customers' | xlat}}</span>
+                                    </a>
+                                </li>
+								<!-- <li id="orders" ng-if="hasPermission('orders')">
+                                    <a href="#orders">
+                                        <i class="fa fa-dashboard"></i><span class="glyphicon glyphicon-shopping-cart"></span> <span>{{'menu_orders' | xlat}}</span>
+                                    </a>
+                                </li> -->
+                                <li ng-if="hasPermission('orders')">
+						            <a ng-click="showSubMenu = !showSubMenu">
+						            	<i class="fa fa-dashboard"></i><span class="glyphicon glyphicon-shopping-cart"></span> <span>{{'menu_orders' | xlat}}</span>
+						            	<b class="caret"></b>
+						            </a>
+						            <ul class="treeview-menu" ng-show="showSubMenu">
+						              <li id="orders">
+						                <a href="#orders"><span class="glyphicon glyphicon-triangle-right"></span> <span>All</span></a>
+						              </li>
+						              <li id="purchaseOrders">
+						                <a href="#purchaseOrders"><span class="glyphicon glyphicon-triangle-right"></span> <span>{{'menu_PO' | xlat}}</span></a>
+						              </li>
+						              <li id="salesOrders">
+						                <a href="#salesOrders"><span class="glyphicon glyphicon-triangle-right"></span> <span>{{'menu_SO' | xlat}}</span></a>
+						              </li>
+						              <li id="deliveryChalans">
+						               	<a href="#deliveryChalans">
+                                        	<span class="glyphicon glyphicon-triangle-right"></span> <span>{{'menu_DC' | xlat}}</span>
+                                    	</a>
+						              </li>
+						              <li id="deliveredOrders">
+						               	<a href="#deliveredOrders">
+                                        	<span class="glyphicon glyphicon-triangle-right"></span> <span>{{'menu_DO' | xlat}}</span>
+                                    	</a>
+						              </li>
+						            </ul>
+                                </li>
+                                <li id="users" ng-if="hasPermission('users')">
+                                    <a href="#users">
+                                        <i class="fa fa-gavel"></i> <span class="glyphicon glyphicon-user"></span><span>{{'menu_users' | xlat}}</span>
+                                    </a>
+                                </li>
+								 <li id="transportOperators" ng-if="hasPermission('users')">
+                                    <a href="#transportOperators">
+                                        <i class="fa fa-gavel"></i> <span class="glyphicon glyphicon-road"></span><span>{{'menu_tos' | xlat}}</span>
+                                    </a>
+                                </li>
+                                <li id="vendors" ng-if="hasPermission('users')">
+                                    <a href="#vendors">
+                                        <i class="fa fa-gavel"></i> <span class="glyphicon glyphicon-user"></span><span>{{'menu_vendors' | xlat}}</span>
+                                    </a>
+                                </li>
+                                <li id="hubs" ng-if="hasPermission('hubs')">
+                                    <a href="#hubs">
+                                        <i class="fa fa-globe"></i><span class="glyphicon glyphicon-globe"></span> <span>{{'menu_hubs' | xlat}}</span>
+                                    </a>
+                                </li>
+								
+								 <li id="markets" ng-if="hasPermission('markets')">
+                                    <a href="#markets">
+                                        <i class="fa fa-globe"></i><span class="glyphicon glyphicon-tent"></span> <span>{{'menu_markets' | xlat}}</span>
+                                    </a>
+                                </li>
+
+                                <li id="items" ng-if="hasPermission('items')">
+                                    <a href="#items">
+                                        <i class="fa fa-glass"></i><span class="glyphicon glyphicon-list-alt"></span> <span>{{'menu_items' | xlat}}</span>
+                                    </a>
+                                </li>
+								 <li id="prices" ng-if="hasPermission('pricing')">
+                                    <a href="#prices">
+                                        <i class="fa fa-glass"></i><span class="glyphicon glyphicon-eur"></span> <span>{{'menu_prices' | xlat}}</span>
+                                    </a>
+                                </li>
+								<li id="reports" ng-if="hasPermission('reports')">
+                                    <a href="#reports">
+                                        <i class="fa fa-glass"></i><span class="glyphicon glyphicon-stats"></span> <span>{{'menu_reports' | xlat}}</span>
+                                    </a>
+                                </li>
+								<li id="uploadOrder" ng-if="hasPermission('uploadOrder')">
+                                    <a href="#uploadOrder">
+                                        <i class="fa fa-glass"></i><span class="glyphicon glyphicon-upload"></span> <span>{{'menu_upload_order' | xlat}}</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </section>
+                        <!-- /.sidebar -->
+                    </aside>
+
+                    <aside class="right-side">
+						
+					<!-- Main content -->
+					<div ui-view></div>
+					<!-- /.content -->
+					
+			<div class="footer-main">
+                    {{'copyright' | xlat}}
+                </div>
+                </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->    
+  </body>
+</html>

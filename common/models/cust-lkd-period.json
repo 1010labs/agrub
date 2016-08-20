@@ -1,0 +1,31 @@
+{
+  "name": "CustLkdPeriod",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    },
+    "custLkdItemPrices": {
+      "type": "hasMany",
+      "model": "CustLkdItemPrice",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

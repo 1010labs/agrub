@@ -1,0 +1,142 @@
+<section class="content">
+		<!-- Main row -->
+		<div class="row">
+			<div class="col-md-12">
+				<section class="panel">
+					<header class="panel-heading">
+					  {{'tbl_head_users' | xlat}}
+					</header>
+					<div class="panel-body table-responsive">
+						<table width="100%" style="margin-bottom:5px">
+							<tr>
+								<td align="right">
+									<button class="btn btn-primary" ng-click="showUser(tempCustomer,'Add')" align="right">Add User</button>
+								</td>
+							</tr>
+						</table> 
+						<table style="background-color:antiquewhite" class="table table-striped table-bordered valignMiddle"  st-safe-src="rowCollection" st-table="userCollection">
+							<thead>
+							<tr>
+									<th st-sort="firstname" st-sort-default="default"><i class="glyphicon glyphicon-filter"></i>First Name</th>
+									<th st-sort="middlename"><i class="glyphicon glyphicon-filter"></i>Middle Name</th>
+									<th st-sort="lastname"><i class="glyphicon glyphicon-filter"></i>Last Name</th>
+									<th st-sort="username"><i class="glyphicon glyphicon-filter"></i>User Name</th>
+									<th st-sort="email"><i class="glyphicon glyphicon-filter"></i>Email</th>
+									<th width="50px">Actions</th>
+								</tr>
+								<tr>
+									<th>
+										<input st-search="firstname" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+									</th>
+									<th>
+										<input st-search="middlename" placeholder="search for middlename" class="input-sm form-control" type="search"/>
+									</th>
+									<th>
+										<input st-search="lastname" placeholder="search for lastname" class="input-sm form-control" type="search"/>
+									</th>
+									<th>
+										<input st-search="username" placeholder="search for username" class="input-sm form-control" type="search"/>
+									</th>
+									<th>
+										<input st-search="email" placeholder="search for email" class="input-sm form-control" type="search"/>
+									</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody ng-show="!isLoading">
+							<tr st-select-row="row" ng-repeat="row in userCollection">
+									<td>{{row.firstname}}</td>
+									<td>{{row.middlename}}</td>
+									<td>{{row.lastname}}</td>
+									<td>{{row.username}}</td>
+									<td>{{row.email}}</td>
+									<td align="center">
+										<span class="sprite sprite-edit" title="Edit User" style="cursor:pointer" ng-click="showUser(row,'Update')"></span>&nbsp;&nbsp;&nbsp;
+										<span class="sprite sprite-delete" title="Delete User" style="cursor:pointer" ng-click="deleteUser(row)"></span>
+									</td>
+							</tr>
+							<tr ng-if="userCollection.length == 0">
+						   		<td colspan="5" class="text-center">{{error}}</td>
+							</tr>
+							</tbody>
+							<tbody ng-show="isLoading">
+							<tr>
+								<td colspan="5" class="text-center"><img src="./css/images/loading.gif"/></td>
+							</tr>
+							</tbody>
+							<tfoot>
+							<tr ng-show="!isLoading && userCollection.length != 0">
+								<td class="text-center" st-pagination="" st-items-by-page="itemsByPage" colspan="5">
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+			</div>
+			<!-- CRUD User-->
+			<div class="row" ng-show="showAddUpdateUser">
+				<div class="col-md-12">
+					<header class="panel-heading">
+						<b>{{header}} User</b>
+					</header>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-12" ng-if="isSubLoading"><img src="./css/images/loading.gif"/>&nbsp;&nbsp;Getting Hubs&nbsp;&nbsp;<img src="./css/images/loading.gif"/></div>
+					<form name="userForm" class="css-form" novalidate ng-show="!isSubLoading">
+						<div>
+						  <!-- SHOW ERROR/SUCCESS MESSAGES -->
+							<div id="messages" style="color:red;margin-bottom: 15px;" ng-show="subError" ng-bind-html="subError"></div>
+							<div class="col-md-12">
+								<span style="float: right;padding-top: 10px;"><font color="red"><i>*Required fields.</i></font></span>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>First Name<font color="red">*</font> :</label> <input type="text"
+									ng-model="user.firstname" required name="firstname" class="form-control"/>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>Middle Name:</label> <input type="text"
+									ng-model="user.middlename" name="middlename" class="form-control"/>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>Last Name<font color="red">*</font> :</label> <input type="text"
+									ng-model="user.lastname" required name="lastname" class="form-control"/>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>User Name<font color="red">*</font> :</label> <input type="text"
+									ng-model="user.username" required name="username" class="form-control"/>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>Email<font color="red">*</font> :</label> <input type="email" name="email" required ng-model="user.email" class="form-control"/>
+							</div>
+							<div class="form-group col-xs-4" ng-if="header=='Add'">
+								<label>Password <font color="red">*</font> :</label> <input type="password" ng-required="header=='Add'" ng-model="user.password" class="form-control"/>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>Role <font color="red">*</font> :</label> 
+								<select name="selectedRole" class="form-control" name="selectedRole" ng-model="selectedRole" required class="form-control" ng-options="role.name for role in roles track by role.id" ng-change="populateNextField()">
+								</select>
+							</div>
+							<div class="form-group col-xs-4" ng-show="isHubRole">
+								<label>Hub <font color="red">*</font> :</label> 
+								<select name="selectedHub" class="form-control" name="selectedHub" ng-model="selectedHub" ng-required="isHubRole==true" class="form-control" ng-options="hub.name for hub in hubs track by hub.id">
+								</select>
+							</div>
+							<div class="form-group col-xs-4" ng-show="isCustomerRole">
+								<label>Customer <font color="red">*</font> :</label> 
+								<select name="selectedCustomer" class="form-control" name="selectedCustomer" ng-model="selectedCustomer" ng-required="isCustomerRole==true" class="form-control" ng-options="customer.name for customer in customers track by customer.id">
+								</select>
+							</div>
+							<div class="form-group col-xs-4">&nbsp;
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" ng-click="addOrUpdateUser(user,header)" ng-disabled="userForm.$invalid">OK</button>
+							<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+						</div>
+					</form>
+				</div>
+              </div>
+              <!-- row end -->
+		</section>
+	</div>
+		</div>
+</section>
